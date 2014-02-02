@@ -1,0 +1,80 @@
+<!doctype html>
+<html lang="en">
+<head>
+	<meta charset="utf-8">
+	<title>jQuery UI Tabs - Simple manipulation</title>
+	<link rel="stylesheet" href="jquery-ui-1.10.4.custom/development-bundle/themes/base/jquery.ui.all.css">
+	<script src="jquery-ui-1.10.4.custom/development-bundle/jquery-1.10.2.js"></script>
+	<script src="jquery-ui-1.10.4.custom/development-bundle/ui/jquery.ui.position.js"></script>
+	<script src="jquery-ui-1.10.4.custom/development-bundle/ui/jquery.ui.core.js"></script>
+	<script src="jquery-ui-1.10.4.custom/development-bundle/ui/jquery.ui.widget.js"></script>
+	
+	<script src="jquery-ui-1.10.4.custom/development-bundle/ui/jquery.ui.tabs.js"></script>
+	
+	
+	<style>
+	
+	#tabs { margin-top: 3em; }
+	#tabs li .ui-icon-close { float: left; margin: 0.4em 0.2em 0 0; cursor: pointer; }
+	
+	
+	</style>
+	<script>
+	$(function() {
+		var tabTitle = $( "#tab_title" ),
+			tabContent = $( "#tab_content" ),
+			tabTemplate = "<li><a href='#{href}'>#{label}</a> <span class='ui-icon ui-icon-close' role='presentation'>Remove Tab</span></li>",
+			tabCounter = 2;
+
+		var tabs = $( "#tabs" ).tabs();
+
+		
+		// close icon: removing the tab on click
+		tabs.delegate( "span.ui-icon-close", "click", function() {
+			var panelId = $( this ).closest( "li" ).remove().attr( "aria-controls" );
+			$( "#" + panelId ).remove();
+			tabs.tabs( "refresh" );
+		});
+
+		tabs.bind( "keyup", function( event ) {
+			if ( event.altKey && event.keyCode === $.ui.keyCode.BACKSPACE ) {
+				var panelId = tabs.find( ".ui-tabs-active" ).remove().attr( "aria-controls" );
+				$( "#" + panelId ).remove();
+				tabs.tabs( "refresh" );
+			}
+		});
+	});
+	</script>
+    
+</head>
+<body>
+
+<div id="tabs">
+	<ul>
+		<li><a href="#tabs-1">Tab 1</a> <span class="ui-icon ui-icon-close" role="presentation">Remove Tab</span></li>
+	</ul>
+	<div id="tabs-1">
+		<p>/* HelloWorld.java
+ 			*/
+
+			public class HelloWorld
+			{
+				public static void main(String[] args) {
+				System.out.println("Hello World!");
+				}
+			}
+	
+		</p>
+	</div>
+    
+</div>
+
+<script src="ace.js" type="text/javascript" charset="utf-8"></script>
+<script>
+    var editor = ace.edit("tabs-1");
+    editor.getSession().setMode("mode/javascript");
+</script>
+
+
+</body>
+</html>
